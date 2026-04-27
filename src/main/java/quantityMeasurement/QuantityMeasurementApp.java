@@ -1,11 +1,4 @@
 
- /*
-  * @version 9.0
-  * @author Prerit Jain
- */
-
-
-
 package quantityMeasurement;
 
 import quantityMeasurement.LengthUnit;
