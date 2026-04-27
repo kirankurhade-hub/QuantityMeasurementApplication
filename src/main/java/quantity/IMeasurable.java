@@ -2,7 +2,6 @@ package quantity;
 
 public interface IMeasurable {
     double getConversionValue();
-
     double convertToBaseUnit(double value);
 
     double convertFromBaseUnit(double baseValue);

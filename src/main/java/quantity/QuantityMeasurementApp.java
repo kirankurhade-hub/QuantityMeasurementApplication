@@ -1,18 +1,32 @@
-package quantity; 
-public class QuantityMeasurementApp {
+package quantity;
 
-	 public static <T extends IMeasurable> boolean demonstrateEquality(Quantity<T> quantity1, Quantity<T> quantity2){
+
+import java.time.Year;
+
+ public class QuantityMeasurementApp {
+
+	 public static <U extends IMeasurable> boolean demonstrateEquality(Quantity<U> quantity1, Quantity<U> quantity2){
 		 return quantity1.equals(quantity2);
 	 }
-	 public static <T extends IMeasurable> Quantity<T> demonstrateConversion(Quantity<T> quantity, T targetUnit){
+
+	 public static <U extends IMeasurable> Quantity<U> demonstrateConversion(Quantity<U> quantity, U targetUnit){
 		 return quantity.convertTo(targetUnit);
 	 }
 
-	 public static <T extends IMeasurable> Quantity<T> demonstrateAddition(Quantity<T> quantity1, Quantity<T> quantity2){
+	 public static <U extends IMeasurable> Quantity<U> demonstrateAddition(Quantity<U> quantity1, Quantity<U> quantity2){
 		 return quantity1.add(quantity2);
 	 }
-	 public static <T extends IMeasurable> Quantity<T> demonstrateAddition(Quantity<T> quantity1, Quantity<T> quantity2, T targetUnit){
+
+	 public static <U extends IMeasurable> Quantity<U> demonstrateAddition(Quantity<U> quantity1, Quantity<U> quantity2, U targetUnit){
 		 return quantity1.add(quantity2, targetUnit);
+	 }
+
+	 public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(Quantity<U> quantity1, Quantity<U> quantity2){
+		 return quantity1.subtract(quantity2);
+	 }
+
+	 public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(Quantity<U> quantity1, Quantity<U> quantity2, U targetUnit){
+		 return quantity1.subtract(quantity2, targetUnit);
 	 }
 
 	public static void main(String[] args) {
@@ -21,10 +35,12 @@ public class QuantityMeasurementApp {
 		Quantity<WeightUnit> weightInKilograms = new Quantity<>(1.0, WeightUnit.KILOGRAM);
 		boolean areEqual = demonstrateEquality(weightInGrams, weightInKilograms);
 		System.out.println("Are weights equal? " + areEqual);
+
 		Quantity<WeightUnit> convertedWeight = demonstrateConversion(weightInGrams,
 				WeightUnit.KILOGRAM);
 		System.out.println("Converted Weight: " + convertedWeight.getValue() + " " +
 				convertedWeight.getUnit());
+
 		Quantity<WeightUnit> weightInPounds = new Quantity<>(2.20462, WeightUnit.POUND);
 		Quantity<WeightUnit> sumWeight = demonstrateAddition(weightInKilograms, weightInPounds);
 		System.out.println("Sum Weight: " + sumWeight.getValue() + " " +

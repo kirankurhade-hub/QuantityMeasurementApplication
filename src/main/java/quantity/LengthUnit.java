@@ -1,4 +1,5 @@
 package quantity;
+
 public enum LengthUnit implements IMeasurable{
     FEET(12.0), // 1 feet = 12 inches
     INCHES(1.0), // 1 inch = 1 inch
@@ -10,6 +11,7 @@ public enum LengthUnit implements IMeasurable{
     LengthUnit(double conversionFactor){
         this.conversionFactor = conversionFactor;
     }
+
     @Override
     public double getConversionValue() {
         return conversionFactor;

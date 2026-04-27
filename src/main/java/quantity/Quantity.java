@@ -1,10 +1,10 @@
 package quantity;
 
-public class Quantity<T extends IMeasurable> {
+public class Quantity<U extends IMeasurable> {
     private double value;
-    private T unit;
+    private U unit;
 
-    public Quantity(double value, T unit){
+    public Quantity(double value, U unit){
         if (!Double.isFinite(value)) {
             throw new IllegalArgumentException("Value must be finite");
         }
@@ -17,9 +17,9 @@ public class Quantity<T extends IMeasurable> {
 
     public double getValue(){return value;}
 
-    public T getUnit(){return unit;}
+    public U getUnit(){return unit;}
 
-    public Quantity<T> convertTo(T targetUnit){
+    public Quantity<U> convertTo(U targetUnit){
         if(targetUnit == null){
             throw new IllegalArgumentException("Unit cannot be null");
         }
@@ -30,14 +30,7 @@ public class Quantity<T extends IMeasurable> {
         double baseValue = unit.convertToBaseUnit(value);
         double convertValue = targetUnit.convertFromBaseUnit(baseValue);
 
-        return new Quantity<T>(round(convertValue), targetUnit);
-    }
-
-    public Quantity<T> add(Quantity<T> other){
-        return addAndConvert(other, unit);
-    }
-    public Quantity<T> add(Quantity<T> other, T targetUnit){
-        return addAndConvert(other, targetUnit);
+        return new Quantity<U>(round(convertValue), targetUnit);
     }
 
     @Override
@@ -52,52 +45,55 @@ public class Quantity<T extends IMeasurable> {
 
     }
 
-    private Quantity<T> addAndConvert(Quantity<T> other, T targetUnit){
-        if(targetUnit == null){
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-        if (!this.unit.getClass().equals(other.unit.getClass())) {
-            throw new IllegalArgumentException("Cannot add different measurement categories");
-        }
-        if(!targetUnit.getClass().equals(unit.getClass())){
-            throw new IllegalArgumentException("Target unit should belong to same class");
-        }
+    public Quantity<U> add(Quantity<U> other){
+        return add(other, unit);
+    }
+
+    public Quantity<U> add(Quantity<U> other, U targetUnit){
+        validateOperation(other, targetUnit);
+
         double thisBaseValue = unit.convertToBaseUnit(value);
         double otherBaseValue = other.unit.convertToBaseUnit(other.value);
 
         double totalValue = targetUnit.convertFromBaseUnit(thisBaseValue+otherBaseValue);
         return new Quantity<>(round(totalValue), targetUnit);
-
     }
 
-  
+    public Quantity<U> subtract(Quantity<U> other){return subtract(other, unit);}
+
+   
+    public Quantity<U> subtract(Quantity<U> other, U targetUnit){
+        validateOperation(other, targetUnit);
+
+        double thisBaseUnit = unit.convertToBaseUnit(value);
+        double otherBaseUnit = other.unit.convertToBaseUnit(other.value);
+
+        double result = targetUnit.convertFromBaseUnit(thisBaseUnit-otherBaseUnit);
+
+        return new Quantity<>(round(result), targetUnit);
+    }
+
+    public double divide(Quantity<U> other){
+        validateOperation(other, unit);
+
+        double thisBaseValue = unit.convertToBaseUnit(value);
+        double otherBaseValue = other.unit.convertToBaseUnit(other.value);
+
+        if(otherBaseValue == 0){throw new ArithmeticException("Division by zero");}
+
+        return round(thisBaseValue/otherBaseValue);
+    }
+
+ 
+    private void validateOperation(Quantity<U> quantity, U targetUnit){
+        if(targetUnit == null){throw new IllegalArgumentException("Target unit cannot be null");}
+        if(quantity == null){throw new IllegalArgumentException("Quantity cannot be null");}
+        if(!unit.getClass().equals(quantity.unit.getClass()) || !targetUnit.getClass().equals(unit.getClass())){throw new IllegalArgumentException("Different measurement unit are not allowed");}
+    }
+
     private double round(double value){return (double) Math.round(value*100)/100;}
 
-    public String toString(){
-        return String.format("%.2f %s", value, unit);
-    }
-
-    public static void main(String[] args) {
-       
-        Quantity<LengthUnit> lengthInFeet = new Quantity<>(10.0, LengthUnit.FEET);
-        Quantity<LengthUnit> lengthInInches = new Quantity<>(120.0, LengthUnit.INCHES);
-        boolean isEqual = lengthInFeet.equals(lengthInInches); // true
-        System.out.println("Are lengths equal? " + isEqual);
-
-        Quantity<WeightUnit> weightInKilograms = new Quantity<>(1.0, WeightUnit.KILOGRAM);
-        Quantity<WeightUnit> weightInGrams = new Quantity<>(1000.0, WeightUnit.GRAM);
-        isEqual = weightInKilograms.equals(weightInGrams); // true
-        System.out.println("Are weights equal? " + isEqual);
-
-        double convertedLength = (lengthInFeet.convertTo(LengthUnit.INCHES)).getValue();
-        System.out.println("10 feet in inches: " + convertedLength);
-
-        Quantity<LengthUnit> totalLength = lengthInFeet.add(lengthInInches, LengthUnit.FEET);
-        System.out.println("Total Length in feet: " + totalLength.getValue() + " " + totalLength.getUnit());
-
-        Quantity<WeightUnit> weightInPounds = new Quantity<>(2.0, WeightUnit.POUND);
-        Quantity<WeightUnit> totalWeight = weightInKilograms.add(weightInPounds, WeightUnit.KILOGRAM);
-        System.out.println("Total Weight in kilograms: " + totalWeight.getValue() + " " + totalWeight.getUnit());
-    }
+    @Override
+    public String toString(){return String.format("%.2f %s", value, unit);}
 
 }
