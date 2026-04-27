@@ -1,0 +1,28 @@
+[33m446de72[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/uc18-Spring-Security-JWT-OAuth[m[33m)[m Removed secrets and used env variables
+[33m2689543[m Added safe config using env variables
+[33mab433a0[m Removed secrets
+[33m0cfec6e[m [Dhruv] Add. added the feature of security and protected routes with O-Auth configurations
+[33ma6eb5ef[m[33m ([m[1;31morigin/feature/uc17-Spring-integration[m[33m, [m[1;32mfeature/uc17-Spring-integration[m[33m)[m [Dhruv] Add. added the solution of uc17 Integrated spring-boot in it
+[33meaea567[m[33m ([m[1;32mfeature/uc16-database-integration[m[33m)[m [Dhruv] Add. added the solution of uc16 database connection established
+[33m07e3626[m[33m ([m[1;31morigin/feature/uc15-N-tier-Architecture[m[33m, [m[1;32mfeature/uc15-N-tier-Architecture[m[33m)[m [Dhruv] Add. added the solution of uc15 N-Tier-Architecture
+[33m3c07e35[m[33m ([m[1;31morigin/feature/uc14-temperature-measurement[m[33m, [m[1;32mfeature/uc14-temperature-measurement[m[33m)[m [Dhruv] Refactor. refactored the code
+[33mfeea87b[m [Dhruv] Add. added the solution based on use case 14
+[33m339d392[m [Dhruv] Add. added the solution based on use case 13
+[33mc78897c[m[33m ([m[1;31morigin/feature/uc12-substractionDivisionoperations[m[33m, [m[1;32mfeature/uc12-substractionDivisionoperations[m[33m)[m [Dhruv] Refactor. refactored gitignore file
+[33mbe30a8a[m [Dhruv] Add. added the solution of useCase 12 adding subtraction and division operation functionality into it
+[33m9c58fa0[m[33m ([m[1;31morigin/feature/uc11-volumeMeasurement[m[33m, [m[1;32mfeature/uc11-volumeMeasurement[m[33m)[m [Dhruv] Refactor. refactored the testcase file
+[33m642645e[m [Dhruv] Add. added the solution of use case 11 volume measurement is added
+[33m12df716[m[33m ([m[1;31morigin/feature/uc10-genericQuantity[m[33m)[m [Dhruv] Add. added the solution of usecase 10 updated Generic Quantity type
+[33mfb46d16[m[33m ([m[1;31morigin/feature/uc9-WeigthMeasurementEquality[m[33m)[m [Dhruv] Add. added the solution of use case 9 Weight enum and functionality
+[33m6113ec8[m[33m ([m[1;31morigin/feature/uc8-RefactoringOfCode[m[33m)[m [Dhruv] Add. added the solution of code for use case 8 Refactoring it
+[33m7dae05f[m [Dhruv] Add. added the solution of use case 8 Refactoring of code
+[33m0940b17[m [Dhruv] Refactor. refactored Code
+[33me93eef9[m [Dhruv] Add. added the solution of useCase 7 in which method overloading is happenening
+[33mc6550a4[m[33m ([m[1;31morigin/feature/uc6-AdditionTwoLengthUnit[m[33m)[m [Dhruv] Add. added the solution of use case 4 Adding two Length units
+[33m974f6fd[m[33m ([m[1;31morigin/feature/uc5-unitToUnitConversion[m[33m)[m [Dhruv] Add. added the solution of use case 5
+[33m9027061[m[33m ([m[1;31morigin/feature/uc4-genericQuantity[m[33m)[m [Dhruv] Refactor. refactored use case 4
+[33m9d7bd8b[m [Dhruv] Add. added the solution with the help of usecase 4
+[33m7a188a0[m [Dhruv] Add. added the solution of usecase3 QualityMeasurementApp
+[33m9550246[m [Dhruv] Add. addded the solution of Use case 2 in Quantity measurement App
+[33m7ca1f53[m [Dhruv] Add. added the solution of QualityMeasurement app Use case 1
+[33m458ce59[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Initialise the repo
