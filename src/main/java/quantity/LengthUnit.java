@@ -1,34 +1,32 @@
 package quantity;
-public enum LengthUnit {
 
-    FEET(1.0),
-    INCHES(1.0 / 12.0),
-    YARDS(3.0),
-    CENTIMETERS(1.0 / 30.48);
+public enum LengthUnit implements IMeasurable{
+    FEET(12.0), // 1 feet = 12 inches
+    INCHES(1.0), // 1 inch = 1 inch
+    YARDS(36.0), // 1 yard = 36 inches
+    CENTIMETERS(0.393701); // 1 cm = 0.393701 inch
 
     private final double conversionFactor;
 
-    LengthUnit(double conversionFactor) {
+   
+    LengthUnit(double conversionFactor){
         this.conversionFactor = conversionFactor;
     }
 
-    public double getConversionFactor() {
+    @Override
+    public double getConversionValue() {
         return conversionFactor;
     }
-   
-    public double convertToBaseUnit(double value) {
-        if (Double.isNaN(value) || Double.isInfinite(value)) {
-            throw new IllegalArgumentException("Invalid value");
-        }
-        return round(value * conversionFactor);
+
+ 
+    @Override
+    public double convertToBaseUnit(double value){
+        return value * conversionFactor;
     }
 
-    public double convertFromBaseUnit(double baseValue) {
-       
-        return round(baseValue / conversionFactor);
-    }
+    @Override
+    public double convertFromBaseUnit(double baseValue){return baseValue/conversionFactor;}
 
-    private double round(double value) {
-        return Math.round(value * 100.0) / 100.0;
-    }
+    @Override
+    public String getUnitName() {return this.name();}
 }

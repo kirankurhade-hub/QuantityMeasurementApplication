@@ -7,16 +7,19 @@ public class Length {
     private final LengthUnit unit;
 
     public Length(double value, LengthUnit unit) {
-        if (unit == null)
-            throw new IllegalArgumentException("Unit cannot be null");
-        
+        if (unit == null) {
+        	 throw new IllegalArgumentException("Unit cannot be null");
+        }
+           
         this.value = value;
         this.unit = unit;
     }
 
     public Length convertTo(LengthUnit targetUnit) {
         if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
+        {
+        	throw new IllegalArgumentException("Target unit cannot be null");
+        }
 
         double base = convertToBaseUnit();
         double converted = convertFromBaseToTargetUnit(base, targetUnit);
@@ -73,7 +76,6 @@ public class Length {
 
     public static void main(String[] args) {
 
-        // Conversion Tests
         Length l1 = new Length(1.0, LengthUnit.FEET);
         Length l2 = new Length(12.0, LengthUnit.INCHES);
         Length l3 = new Length(1.0, LengthUnit.CENTIMETERS);
@@ -83,29 +85,24 @@ public class Length {
         System.out.println("12 Inches to Feet: " + l2.convertTo(LengthUnit.FEET));
         System.out.println("1 Meter to Feet: " + l3.convertTo(LengthUnit.FEET));
 
-        // Addition Tests (same unit)
         System.out.println("\n---- Addition Same Unit ----");
         Length sum1 = l1.add(new Length(2.0, LengthUnit.FEET));
         System.out.println("1 ft + 2 ft = " + sum1);
 
-        // Addition Tests (different units)
         System.out.println("\n---- Addition Different Units ----");
         Length sum2 = l1.add(l2);  // 1 ft + 12 inches
         System.out.println("1 ft + 12 inches (result in feet) = " + sum2);
 
-        // Addition with Target Unit
         System.out.println("\n---- Addition With Target Unit ----");
         Length sum3 = l1.add(l2, LengthUnit.INCHES);
         System.out.println("1 ft + 12 inches (result in inches) = " + sum3);
 
-        // Equality Test
         System.out.println("\n---- Equality Test ----");
         Length oneFoot = new Length(1.0, LengthUnit.FEET);
         Length twelveInches = new Length(12.0, LengthUnit.INCHES);
 
         System.out.println("1 ft equals 12 inches? " + oneFoot.equals(twelveInches));
 
-        // More Complex Test
         System.out.println("\n---- Complex Test ----");
         Length complexSum = new Length(2, LengthUnit.CENTIMETERS)
                 .add(new Length(3, LengthUnit.FEET), LengthUnit.CENTIMETERS);
