@@ -1,66 +1,18 @@
-# Build outputs
 /target/
-*.class
-!/target/.gitkeep
-!/target/.placeholder
-!**/src/main/**/target/
-!**/src/test/**/target/
-/target/**/generated-sources/
-
-# Maven
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
-mvnw
-mvnw.cmd
-.log
-/logs/
-*.log
-
-# Kotlin/Java tooling
-.kotlin
-/out/
-/bin/
-/coverage/
-/jacoco.exec
-/jacoco-ut.exec
+# Compiled files
 *.class
 
-### IntelliJ IDEA ###
-.idea/*
-!.idea/.gitkeep
-*.iws
-*.iml
-*.ipr
+# Maven build folder
+target/
 
-### Eclipse ###
-.metadata
-.apt_generated/
-.classpath
-.factorypath
-.project
+# Eclipse files
+.metadata/
 .settings/
-.springBeans
-.sts4-cache
+bin/
+.project
+.classpath
+.gitignore
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### OS files ###
+# IDE / OS
 .DS_Store
 Thumbs.db
-
-### Dump folder ###
-/dump/
-
-### Serialized cache ###
-*.ser
