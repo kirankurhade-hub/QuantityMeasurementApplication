@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URLEncoder;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * OAuth2 authentication success handler.
  * Generates JWT token after successful Google login and redirects with token.
@@ -24,6 +26,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2AuthenticationSuccessHandler.class);
     private final JwtUtils jwtUtils;
+
+    @Value("${frontend.url:http://localhost:3000}")
+    private String frontendUrl;
 
     public OAuth2AuthenticationSuccessHandler(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
@@ -46,7 +51,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         log.info("JWT token generated for OAuth2 user: {}", principal.getEmail());
         
         // Redirect to frontend index with token
-        String redirectUrl = "http://localhost:3000/index.html?oauth_token=" + token + "&email=" + URLEncoder.encode(principal.getEmail(), "UTF-8");
+        String redirectUrl = frontendUrl + "/index.html?oauth_token=" + token + "&email=" + URLEncoder.encode(principal.getEmail(), "UTF-8");
         response.sendRedirect(redirectUrl);
     }
 }
