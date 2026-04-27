@@ -1,9 +1,3 @@
-
- /*
-  * @version 15.0
-  * @author Prerit Jain
- */
-
 package quantityMeasurement;
 
  import quantityMeasurement.controller.QuantityMeasurementController;

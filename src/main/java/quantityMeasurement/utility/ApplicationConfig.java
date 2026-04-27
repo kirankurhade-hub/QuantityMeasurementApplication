@@ -137,14 +137,7 @@ public class ApplicationConfig {
         return environment.name();
     }
 
-    /**
-     * Checks if the provided key is a valid configuration key defined in the
-     * ConfigKey enum. This method can be used to validate configuration keys
-     * before attempting to retrieve their values.
-     *
-     * @param key the configuration key to check
-     * @return true if the key is a valid configuration key, false otherwise
-     */
+   
     public boolean isConfigKey(String key) {
         for (ConfigKey ck : ConfigKey.values()) {
             if (ck.getKey().equals(key)) return true;
@@ -152,11 +145,7 @@ public class ApplicationConfig {
         return false;
     }
 
-    /**
-     * Print all configuration properties for debugging purposes. This method can be
-     * called during application startup to log the loaded configuration, which can
-     * help in troubleshooting configuration issues.
-     */
+    
     public void printAllProperties() {
         logger.info("=== Application Configuration ===");
         logger.info("Environment: " + getEnvironment());

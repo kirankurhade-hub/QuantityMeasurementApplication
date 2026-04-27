@@ -21,10 +21,6 @@ public class ConnectionPool {
     private final String driverClass;
     private final String testQuery;
 
-    /**
-     * Private constructor to initialize the connection pool based on the configuration.
-     * @throws SQLException
-     */
     private ConnectionPool() throws SQLException {
         ApplicationConfig config = ApplicationConfig.getInstance();
         this.driverClass  = config.getProperty(
@@ -53,11 +49,7 @@ public class ConnectionPool {
         logger.info("ConnectionPool initialized with " + poolSize + " connections.");
     }
 
-    /**
-     * Get the singleton instance of the ConnectionPool.
-     * @return the singleton instance of the ConnectionPool
-     * @throws SQLException if there is an error initializing the connection pool
-     */
+  
     public static synchronized ConnectionPool getInstance() throws SQLException {
         if (instance == null) {
             instance = new ConnectionPool();
@@ -65,34 +57,18 @@ public class ConnectionPool {
         return instance;
     }
 
-    /**
-     * Initializes the connection pool by creating the specified number of connections.
-     * @throws SQLException if there is an error creating connections
-     */
+ 
     private void initializeConnections() throws SQLException {
         for (int i = 0; i < poolSize; i++) {
             availableConnections.add(createConnection());
         }
     }
 
-    /**
-     * Creates a new database connection using the configured parameters.
-     * @return a new database connection
-     * @throws SQLException if there is an error creating the connection
-     */
+   
     private Connection createConnection() throws SQLException {
         return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
     }
 
-    /**
-     * Acquires a connection from the pool. If no connections are available and the
-     * pool has not reached its maximum size, a new connection will be created. If
-     * the pool has reached its maximum size, an SQLException will be thrown.
-     *
-     * @return a database connection from the pool
-     * @throws SQLException if there are no available connections and the pool has
-     *         reached its maximum size
-     */
     public synchronized Connection getConnection() throws SQLException {
         if (!availableConnections.isEmpty()) {
             Connection conn = availableConnections.remove(availableConnections.size() - 1);
@@ -110,14 +86,6 @@ public class ConnectionPool {
         throw new SQLException(
                 "Connection pool exhausted. Max pool size: " + poolSize);
     }
-
-    /**
-     * Releases a connection back to the pool. The connection is moved from the used
-     * connections list to the available connections list. If the connection is null,
-     * it will be ignored.
-     *
-     * @param connection the database connection to be released back to the pool
-     */
     public synchronized void releaseConnection(Connection connection) {
         if (connection == null) return;
         usedConnections.remove(connection);
@@ -126,14 +94,6 @@ public class ConnectionPool {
                 + ", Used: " + usedConnections.size());
     }
 
-    /**
-     * Execute Test Query to validate a connection. This method can be used to check
-     * if a connection is valid and can successfully communicate with the database.
-     * It executes a simple query (e.g., "SELECT 1") and returns true if the query
-     * executes successfully, indicating that the connection is valid. If the query fails,
-     * it returns false, indicating that the connection is not valid. This method can be
-     * useful for connection validation before using a connection from the pool.
-     */
     public boolean validateConnection(Connection connection) {
         try (var stmt = connection.createStatement()) {
             stmt.execute(this.testQuery);
@@ -144,12 +104,6 @@ public class ConnectionPool {
         }
     }
 
-    /**
-     * Closes all connections in the pool. This method should be called when the
-     * application is shutting down to ensure that all database connections are properly
-     * closed. It iterates through both the available and used connections and attempts
-     * to close each one, logging any exceptions that occur during the closure process.
-     */
     public synchronized void closeAll() {
         for (Connection conn : availableConnections) {
             try { conn.close(); } catch (SQLException e) {
@@ -171,16 +125,6 @@ public class ConnectionPool {
     public int getUsedConnectionCount()      { return usedConnections.size(); }
     public int getTotalConnectionCount()     { return availableConnections.size() + usedConnections.size(); }
 
-    /**
-     * toString method for debugging purposes. This method provides a string
-     * representation of the connection pool, including the number of available
-     * and used connections. It can be useful for logging the state of the connection
-     * pool during application execution, especially when monitoring connection
-     * usage and debugging connection-related issues.
-     *
-     * @return a string representation of the connection pool, including the number of
-     *         available and used connections
-     */
     @Override
     public String toString() {
         return String.format("ConnectionPool[available=%d, used=%d, total=%d]",
