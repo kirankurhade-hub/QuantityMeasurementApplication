@@ -30,7 +30,7 @@ class QuantityMeasurementControllerTest {
     @Autowired private ObjectMapper objectMapper;
     @MockBean  private IQuantityMeasurementService service;
 
-    // ── Helpers ──────────────────────────────────────────────────
+    // Helpers
 
     private QuantityMeasurementDTO compareDTO() {
         QuantityMeasurementDTO d = new QuantityMeasurementDTO();
@@ -48,7 +48,7 @@ class QuantityMeasurementControllerTest {
         return d;
     }
 
-    // ── POST /compare ────────────────────────────────────────────
+    // POST /compare
 
     @Test
     void testCompare_returnsOk() throws Exception {
@@ -68,7 +68,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$.error").value(false));
     }
 
-    // ── POST /add ────────────────────────────────────────────────
+    // POST /add
 
     @Test
     void testAdd_returnsOk() throws Exception {
@@ -88,7 +88,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$.resultUnit").value("FEET"));
     }
 
-    // ── Bean Validation — invalid measurementType returns 400 ────
+    // Bean Validation. invalid measurementType returns 400.
 
     @Test
     void testCompare_invalidMeasurementType_returns400() throws Exception {
@@ -104,7 +104,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$.status").value(400));
     }
 
-    // ── Bean Validation — null value returns 400 ─────────────────
+    // Bean Validation null value returns 400.
 
     @Test
     void testAdd_nullValue_returns400() throws Exception {
@@ -119,7 +119,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    // ── GET /history ─────────────────────────────────────────────
+    // GET /history
 
     @Test
     void testGetHistory_returnsOkList() throws Exception {
@@ -137,7 +137,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$[0].operation").value("COMPARE"));
     }
 
-    // ── GET /history/type/{type} ─────────────────────────────────
+    // GET /history/type/{type}
 
     @Test
     void testGetHistoryByType_returnsOkList() throws Exception {
@@ -147,7 +147,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$[0].thisMeasurementType").value("LengthUnit"));
     }
 
-    // ── GET /history/errored ─────────────────────────────────────
+    // GET /history/errored 
 
     @Test
     void testGetErrorHistory_returnsEmptyList() throws Exception {
@@ -158,7 +158,7 @@ class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$").isEmpty());
     }
 
-    // ── GET /count/{operation} ───────────────────────────────────
+    // GET /count/{operation}
 
     @Test
     void testGetOperationCount_returnsCountJson() throws Exception {

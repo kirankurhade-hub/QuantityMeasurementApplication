@@ -51,16 +51,7 @@ public class ApplicationConfig {
         return instance;
     }
 
-    /**
-     * Loads configuration properties from a properties file, system properties, or
-     * environment variables. The method first attempts to load from a properties file
-     * named "application.properties" located in the classpath. If the file is not found,
-     * it falls back to loading default values. The environment can be specified through
-     * system properties or environment variables, and if not set, it defaults to
-     * "development". The method also includes error handling to log any issues encountered
-     * during the loading process and ensures that the application can still run with default
-     * configurations if necessary.
-     */
+
     private void loadConfiguration() {
         properties = new Properties();
         try {

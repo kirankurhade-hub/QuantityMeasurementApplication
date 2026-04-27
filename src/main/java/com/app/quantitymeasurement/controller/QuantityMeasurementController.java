@@ -17,17 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * UC17 - REST Controller.
- *
- * Changes from UC16:
- *   - @RestController + @RequestMapping expose HTTP endpoints
- *   - @Valid on every @RequestBody triggers Bean Validation automatically
- *   - All endpoints return QuantityMeasurementDTO (structured response)
- *   - Three new GET endpoints: /history/type, /history/errored, /count
- *   - Swagger @Tag / @Operation annotations for API documentation
- *   - GlobalExceptionHandler handles all exceptions centrally
- */
 @RestController
 @RequestMapping("/api/measurements")
 @Tag(name = "Quantity Measurements", description = "REST API for quantity measurement operations")

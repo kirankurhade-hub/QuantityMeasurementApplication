@@ -12,13 +12,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * UC17 - Full integration tests.
- *
- * @SpringBootTest(RANDOM_PORT) starts the full app on a random port.
- * TestRestTemplate sends real HTTP requests to the running server.
- * Real H2 in-memory database is used — no mocking.
- */
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ApplicationTests {
 
@@ -28,7 +22,7 @@ class ApplicationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    // ── Helpers ──────────────────────────────────────────────────
+    // Helpers
 
     private String url(String path) {
         return "http://localhost:" + port + path;
@@ -40,14 +34,14 @@ class ApplicationTests {
         return new HttpEntity<>(body, h);
     }
 
-    // ── Context ──────────────────────────────────────────────────
+    // Context 
 
     @Test
     void contextLoads() {
         assertTrue(port > 0, "Server should start on a port > 0");
     }
 
-    // ── POST /compare ────────────────────────────────────────────
+    //  POST /compare 
 
     @Test
     void testCompare_1FeetEquals12Inches() {
@@ -78,7 +72,7 @@ class ApplicationTests {
         assertEquals("Equal", r.getBody().getResultString());
     }
 
-    // ── POST /convert ────────────────────────────────────────────
+    // POST /convert 
 
     @Test
     void testConvert_1FeetTo12Inches() {
@@ -95,7 +89,7 @@ class ApplicationTests {
         assertFalse(r.getBody().isError());
     }
 
-    // ── POST /add ────────────────────────────────────────────────
+    // POST /add
 
     @Test
     void testAdd_1FeetPlus12InchesEquals2Feet() {
@@ -126,7 +120,7 @@ class ApplicationTests {
         assertEquals(2000.0, r.getBody().getResultValue(), 0.001);
     }
 
-    // ── POST /subtract ───────────────────────────────────────────
+    // POST /subtract
 
     @Test
     void testSubtract_2FeetMinus12Inches() {
@@ -142,7 +136,7 @@ class ApplicationTests {
         assertEquals(1.0, r.getBody().getResultValue(), 0.001);
     }
 
-    // ── POST /divide ─────────────────────────────────────────────
+    // POST /divide
 
     @Test
     void testDivide_2FeetBy12Inches() {
@@ -159,7 +153,7 @@ class ApplicationTests {
         assertEquals(2.0, Double.parseDouble(r.getBody().getResultString()), 0.001);
     }
 
-    // ── Validation errors ────────────────────────────────────────
+    // Validation errors
 
     @Test
     void testCompare_invalidMeasurementType_returns400() {
@@ -188,7 +182,7 @@ class ApplicationTests {
         assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
     }
 
-    // ── GET history endpoints ────────────────────────────────────
+    //  GET history endpoints 
 
     @Test
     void testGetAllHistory_returnsList() {
@@ -231,7 +225,7 @@ class ApplicationTests {
         assertEquals("ADD", r.getBody().get("operation"));
     }
 
-    // ── Actuator ─────────────────────────────────────────────────
+    // Actuator
 
     @Test
     void testActuatorHealth_returnsUp() {
