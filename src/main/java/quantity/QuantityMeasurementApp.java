@@ -3,32 +3,23 @@ package quantity;
 public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
+    	
+    	QuantityLength l1 = new QuantityLength(1.0, LengthUnit.FEET);
+    	QuantityLength l2 = new QuantityLength(12.0, LengthUnit.INCHES);
+    	System.out.println("Input: add("+l1+", "+l2+" )");
+    	System.out.println("Output: "+l1.add(l2));
+    	
+    	QuantityLength l3 = new QuantityLength(1.0, LengthUnit.YARDS);
+    	QuantityLength l4 = new QuantityLength(3.0, LengthUnit.FEET);
+    	System.out.println("Input: add("+l3+", "+l4+" )");
+    	System.out.println("Output: "+l3.add(l4));
 
-        demonstrateLengthConversion(1.0, LengthUnit.FEET, LengthUnit.INCHES);
-        demonstrateLengthConversion(3.0, LengthUnit.YARDS, LengthUnit.FEET);
-        demonstrateLengthConversion(36.0, LengthUnit.INCHES, LengthUnit.YARDS);
-        demonstrateLengthConversion(1.0, LengthUnit.CENTIMETERS, LengthUnit.INCHES);
-
-        QuantityLength lengthInYards =
-                new QuantityLength(2.0, LengthUnit.YARDS);
-
-        demonstrateLengthConversion(lengthInYards, LengthUnit.INCHES);
+    	QuantityLength l5 = new QuantityLength(2.54, LengthUnit.CENTIMETERS);
+    	QuantityLength l6 = new QuantityLength(1.0, LengthUnit.INCHES);
+    	
+    	System.out.println("Input: add("+l5+", "+l6+" )");
+    	System.out.println("Output: "+l5.add(l6));
+        
     }
 
-  
-    public static void demonstrateLengthConversion(double value,
-                                                   LengthUnit from,
-                                                   LengthUnit to) {
-
-        double result = QuantityLength.convert(value, from, to);
-        System.out.println("convert(" + value + ", " + from + ", " + to + ") → " + result);
-    }
-
- 
-    public static void demonstrateLengthConversion(QuantityLength length,
-                                                   LengthUnit target) {
-
-        QuantityLength converted = length.convertTo(target);
-        System.out.println(length + " → " + converted);
-    }
 }

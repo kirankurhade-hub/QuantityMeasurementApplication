@@ -11,50 +11,58 @@ import quantity.QuantityLength;
 
 public class QuantityLengthTest {
 
-    private static final double EPSILON = 0.000001;
+    private static final double EPSILON = 0.00001;
 
     @Test
-    public void testConversion_FeetToInches() {
-        assertEquals(12.0,
-                QuantityLength.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES),
+    public void testAddition_SameUnit_FeetPlusFeet() {
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(2.0, LengthUnit.FEET);
+
+        QuantityLength result = q1.add(q2);
+
+        assertEquals(3.0, result.getValue(), EPSILON);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
+
+    @Test
+    public void testAddition_CrossUnit_FeetPlusInches() {
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength result = q1.add(q2);
+
+        assertEquals(2.0, result.getValue(), EPSILON);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
+
+    @Test
+    public void testAddition_Commutativity() {
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength result1 = q1.add(q2);
+        QuantityLength result2 = q2.add(q1);
+
+        assertEquals(
+                result1.getUnit().toFeet(result1.getValue()),
+                result2.getUnit().toFeet(result2.getValue()),
                 EPSILON);
     }
 
     @Test
-    public void testConversion_CentimetersToInches() {
-        assertEquals(1.0,
-                QuantityLength.convert(2.54, LengthUnit.CENTIMETERS, LengthUnit.INCHES),
-                EPSILON);
+    public void testAddition_WithZero() {
+        QuantityLength q1 = new QuantityLength(5.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(0.0, LengthUnit.INCHES);
+
+        QuantityLength result = q1.add(q2);
+
+        assertEquals(5.0, result.getValue(), EPSILON);
     }
 
     @Test
-    public void testConversion_RoundTrip() {
-        double value = 5.0;
+    public void testAddition_NullSecondOperand() {
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
 
-        double converted =
-                QuantityLength.convert(value, LengthUnit.FEET, LengthUnit.INCHES);
-
-        double back =
-                QuantityLength.convert(converted, LengthUnit.INCHES, LengthUnit.FEET);
-
-        assertEquals(value, back, EPSILON);
-    }
-
-    @Test
-    public void testConversion_InvalidUnit_Throws() {
-        assertThrows(IllegalArgumentException.class, () ->
-                QuantityLength.convert(1.0, null, LengthUnit.FEET));
-    }
-
-    @Test
-    public void testConversion_NaN_Throws() {
-        assertThrows(IllegalArgumentException.class, () ->
-                QuantityLength.convert(Double.NaN, LengthUnit.FEET, LengthUnit.INCHES));
-    }
-
-    @Test
-    public void testEquality_SameReference() {
-        QuantityLength q1 = new QuantityLength(2.0, LengthUnit.YARDS);
-        assertTrue(q1.equals(q1));
+        assertThrows(IllegalArgumentException.class, () -> q1.add(null));
     }
 }

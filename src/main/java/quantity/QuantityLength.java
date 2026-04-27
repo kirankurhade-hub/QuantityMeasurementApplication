@@ -40,6 +40,16 @@ public final class QuantityLength {
 	        double converted = convert(this.value, this.unit, target);
 	        return new QuantityLength(converted, target);
 	    }
+	 public QuantityLength add(QuantityLength another) {
+		 if(another == null) {
+			 throw new IllegalArgumentException("Give the corrected argument");
+		 }
+		 double thisInFeet = this.toBaseUnit();
+		 double anotherInFeet = another.toBaseUnit();
+		 double sumInFeet = thisInFeet + anotherInFeet;
+		 double result = this.unit.fromFeet(sumInFeet);
+		 return new QuantityLength(result,this.unit);
+	 }
 	 private double toBaseUnit1() {
 	        return unit.toFeet(value);
 	    }
