@@ -1,1 +1,17 @@
-/.metadata/
+/target/
+# Compiled files
+*.class
+
+# Maven build folder
+target/
+
+# Eclipse files
+.metadata/
+.settings/
+bin/
+.project
+.classpath
+
+# IDE / OS
+.DS_Store
+Thumbs.db
