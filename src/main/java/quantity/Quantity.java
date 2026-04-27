@@ -36,7 +36,6 @@ public class Quantity<T extends IMeasurable> {
     public Quantity<T> add(Quantity<T> other){
         return addAndConvert(other, unit);
     }
-
     public Quantity<T> add(Quantity<T> other, T targetUnit){
         return addAndConvert(other, targetUnit);
     }
@@ -71,11 +70,15 @@ public class Quantity<T extends IMeasurable> {
 
     }
 
-   
+  
     private double round(double value){return (double) Math.round(value*100)/100;}
 
+    public String toString(){
+        return String.format("%.2f %s", value, unit);
+    }
+
     public static void main(String[] args) {
-   
+       
         Quantity<LengthUnit> lengthInFeet = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<LengthUnit> lengthInInches = new Quantity<>(120.0, LengthUnit.INCHES);
         boolean isEqual = lengthInFeet.equals(lengthInInches); // true
