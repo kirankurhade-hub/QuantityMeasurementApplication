@@ -65,4 +65,46 @@ public class QuantityLengthTest {
 
         assertThrows(IllegalArgumentException.class, () -> q1.add(null));
     }
+    @Test
+    public void testAddition_ExplicitTargetUnit_Feet() {
+
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength result = q1.add(q2, LengthUnit.FEET);
+
+        assertEquals(2.0, result.getValue(), EPSILON);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
+    @Test
+    public void testAddition_ExplicitTargetUnit_Inches() {
+
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength result = q1.add(q2, LengthUnit.INCHES);
+
+        assertEquals(24.0, result.getValue(), EPSILON);
+    }
+    @Test
+    public void testAddition_ExplicitTargetUnit_Yards() {
+
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength result = q1.add(q2, LengthUnit.YARDS);
+
+        assertEquals(0.6667, result.getValue(), 0.01);
+    }
+    @Test
+    public void testAddition_ExplicitTargetUnit_Commutativity() {
+
+        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+
+        QuantityLength r1 = q1.add(q2, LengthUnit.YARDS);
+        QuantityLength r2 = q2.add(q1, LengthUnit.YARDS);
+
+        assertEquals(r1.getValue(), r2.getValue(), EPSILON);
+    }
 }

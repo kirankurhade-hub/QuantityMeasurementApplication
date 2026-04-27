@@ -53,6 +53,21 @@ public final class QuantityLength {
 	 private double toBaseUnit1() {
 	        return unit.toFeet(value);
 	    }
+	 public QuantityLength add(QuantityLength another,LengthUnit target) {
+		 if(another == null) {
+			 throw new IllegalArgumentException("Please enter the corrected arguments");
+		 }
+		 if(target == null) {
+			 throw new IllegalArgumentException("target should not be null");
+		 }
+		 double sumInFeet = sumInBaseUnit(another);
+		 double resultInFeet = target.fromFeet(sumInFeet);
+		 
+		 return new QuantityLength(resultInFeet, target);
+	 }
+	 public double sumInBaseUnit(QuantityLength another) {
+		 return this.toBaseUnit() + another.toBaseUnit();
+	 }
 	 @Override
 	    public boolean equals(Object obj) {
 	        if (this == obj) return true;
