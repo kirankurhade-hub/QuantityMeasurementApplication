@@ -15,7 +15,7 @@ public enum LengthUnit {
     public double getConversionFactor() {
         return conversionFactor;
     }
-
+   
     public double convertToBaseUnit(double value) {
         if (Double.isNaN(value) || Double.isInfinite(value)) {
             throw new IllegalArgumentException("Invalid value");

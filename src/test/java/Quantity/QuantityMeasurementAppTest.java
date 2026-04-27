@@ -23,7 +23,6 @@ public class QuantityMeasurementAppTest {
                 LengthUnit.INCHES.convertToBaseUnit(12.0),
                 EPSILON);
     }
-
     @Test
     public void testConvertFromBaseUnit_FeetToYards() {
         assertEquals(1.0,
