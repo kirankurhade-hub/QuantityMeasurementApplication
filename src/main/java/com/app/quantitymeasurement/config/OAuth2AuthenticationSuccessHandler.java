@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * OAuth2 authentication success handler.
@@ -44,28 +45,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         
         log.info("JWT token generated for OAuth2 user: {}", principal.getEmail());
         
-        // Build response
-        AuthResponse authResponse = AuthResponse.success(
-                token,
-                principal.getId(),
-                principal.getEmail(),
-                principal.getFullName(),
-                "google"
-        );
-        
-        // Return JSON response with token info (instead of redirect)
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_OK);
-        
-        // Build JSON response
-        String jsonResponse = String.format(
-            "{\"token\":\"%s\",\"type\":\"Bearer\",\"userId\":%d,\"email\":\"%s\",\"fullName\":\"%s\",\"provider\":\"google\"}",
-            token, 
-            principal.getId(), 
-            principal.getEmail(), 
-            principal.getFullName()
-        );
-        
-        response.getWriter().write(jsonResponse);
+        // Redirect to frontend index with token
+        String redirectUrl = "http://localhost:3000/index.html?oauth_token=" + token + "&email=" + URLEncoder.encode(principal.getEmail(), "UTF-8");
+        response.sendRedirect(redirectUrl);
     }
 }

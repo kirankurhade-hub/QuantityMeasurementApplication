@@ -22,6 +22,10 @@ public class QuantityMeasurementDTO {
 	private String resultUnit;
 	private String resultMeasurementType;
 
+	private boolean isEqual;
+	private boolean isGreater;
+	private String result;
+
 	private String errorMessage;
 	private boolean error;
 
@@ -177,5 +181,29 @@ public class QuantityMeasurementDTO {
 
 	public void setError(boolean v) {
 		this.error = v;
+	}
+
+	public boolean getIsEqual() {
+		return isEqual;
+	}
+
+	public void setIsEqual(boolean v) {
+		this.isEqual = v;
+	}
+
+	public boolean getIsGreater() {
+		return isGreater;
+	}
+
+	public void setIsGreater(boolean v) {
+		this.isGreater = v;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String v) {
+		this.result = v;
 	}
 }

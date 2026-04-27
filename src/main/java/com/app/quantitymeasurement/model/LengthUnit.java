@@ -8,7 +8,11 @@ public enum LengthUnit implements IMeasurable {
     FEET(12.0), // 1 feet = 12 inches
     INCHES(1.0), // 1 inch = 1 inch
     YARDS(36.0), // 1 yard = 36 inches
-    CENTIMETERS(0.393701); // 1 cm = 0.393701 inch
+    CENTIMETERS(0.393701), // 1 cm = 0.393701 inch
+    METERS(39.3701), // 1 meter = 39.3701 inches
+    KILOMETERS(39370.1), // 1 km = 39370.1 inches
+    MILLIMETERS(0.0393701), // 1 mm = 0.0393701 inch
+    MILES(63360.0); // 1 mile = 63360 inches
 
     private final double conversionFactor;
 

@@ -103,15 +103,24 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
                 QuantityMeasurementEntity e =
                         buildEntity(m1, m2, "COMPARE", "Not Equal", null, false, null);
                 repository.save(e);
-                return QuantityMeasurementDTO.fromEntity(e);
+                QuantityMeasurementDTO dto = QuantityMeasurementDTO.fromEntity(e);
+                dto.setIsEqual(false);
+                dto.setIsGreater(false);
+                dto.setResult("NOT_EQUAL");
+                return dto;
             }
             boolean equal = Math.abs(
                     m1.getUnit().convertToBaseUnit(m1.getValue()) -
                     m2.getUnit().convertToBaseUnit(m2.getValue())) <= 1e-5;
+            boolean greater = m1.getUnit().convertToBaseUnit(m1.getValue()) > m2.getUnit().convertToBaseUnit(m2.getValue());
             QuantityMeasurementEntity e =
                     buildEntity(m1, m2, "COMPARE", equal ? "Equal" : "Not Equal", null, false, null);
             repository.save(e);
-            return QuantityMeasurementDTO.fromEntity(e);
+            QuantityMeasurementDTO dto = QuantityMeasurementDTO.fromEntity(e);
+            dto.setIsEqual(equal);
+            dto.setIsGreater(greater);
+            dto.setResult(equal ? "EQUAL" : (greater ? "GREATER" : "LESS"));
+            return dto;
         } catch (Exception ex) {
             QuantityMeasurementEntity e =
                     buildEntity(m1, m2, "COMPARE", null, null, true, ex.getMessage());
