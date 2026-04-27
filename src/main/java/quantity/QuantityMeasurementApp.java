@@ -1,53 +1,89 @@
 package quantity;
+public class QuantityMeasurementApp {
 
-import quantity.Length.LengthUnit;
+    public static boolean demonstrateLengthEquality(Length l1, Length l2) {
+        return l1.equals(l2);
+    }
 
- public class QuantityMeasurementApp {
-	
-	
-	public static boolean demonstrateLengthEquality(Length length1, Length length2) {
-		System.out.println("Equal (" + length1.compare(length2) + ")");
-		return length1.equals(length2);
-	}
-		
-	public static boolean demonstrateLengthComparison(Length length1, Length length2) {
-		System.out.println("Compare (" + length1.compare(length2) + ")");
-		return length1.compare(length2);
-	}
-	
-	public static Length demonstrateLengthConversion(double value, LengthUnit fromUnit, LengthUnit toUnit) {
-		Length length = new Length(value, fromUnit);
-		
-		return length.convertTo(toUnit);
-	}
-	
-	public static Length demonstrateLengthConversion(Length length, LengthUnit toUnit) {
-		return length.convertTo(toUnit);
-	}
+    public static boolean demonstrateLengthComparison(double v1, LengthUnit u1,
+                                                      double v2, LengthUnit u2) {
+        return new Length(v1, u1).equals(new Length(v2, u2));
+    }
 
-	public static Length demonstrateLengthAddition(Length length1, Length length2){
-		return length1.add(length2);
-	}
+    public static Length demonstrateLengthConversion(double value,
+                                                     LengthUnit from,
+                                                     LengthUnit to) {
+        return new Length(value, from).convertTo(to);
+    }
 
-	public static Length demonstrateLengthAddition(Length length1, Length length2, LengthUnit targetUnit){
-		return length1.add(length2, targetUnit);
-	}
+    public static Length demonstrateLengthConversion(Length length,
+                                                     LengthUnit to) {
+        return length.convertTo(to);
+    }
 
-	public static void main(String[] args) {
-		System.out.println(demonstrateLengthAddition(new Length(1, LengthUnit.FEET), new Length(12, LengthUnit.INCHES), LengthUnit.FEET));
+    public static Length demonstrateLengthAddition(Length l1, Length l2) {
+        return l1.add(l2);
+    }
 
-		System.out.println(demonstrateLengthAddition(new Length(1, LengthUnit.FEET), new Length(12, LengthUnit.INCHES), LengthUnit.INCHES));
+    public static Length demonstrateLengthAddition(Length l1,
+                                                   Length l2,
+                                                   LengthUnit targetUnit) {
+        return l1.add(l2, targetUnit);
+    }
 
-		System.out.println(demonstrateLengthAddition(new Length(1, LengthUnit.FEET), new Length(12, LengthUnit.INCHES), LengthUnit.YARDS));
+    public static void main(String[] args) {
+        System.out.println(demonstrateLengthConversion(
+                1.0, LengthUnit.FEET, LengthUnit.INCHES));
 
-		System.out.println(demonstrateLengthAddition(new Length(1, LengthUnit.YARDS), new Length(3, LengthUnit.FEET), LengthUnit.YARDS));
+        System.out.println(demonstrateLengthConversion(
+                12.0, LengthUnit.INCHES, LengthUnit.FEET));
 
-		System.out.println(demonstrateLengthAddition(new Length(36, LengthUnit.INCHES), new Length(1, LengthUnit.YARDS), LengthUnit.FEET));
+        System.out.println(demonstrateLengthConversion(
+                2.0, LengthUnit.CENTIMETERS, LengthUnit.FEET));
 
-		System.out.println(demonstrateLengthAddition(new Length(2.54, LengthUnit.CENTIMETERS), new Length(1, LengthUnit.INCHES), LengthUnit.CENTIMETERS));
+        Length l1 = new Length(5, LengthUnit.FEET);
+        System.out.println(demonstrateLengthConversion(
+                l1, LengthUnit.INCHES));
 
-		System.out.println(demonstrateLengthAddition(new Length(5, LengthUnit.FEET), new Length(0, LengthUnit.INCHES), LengthUnit.YARDS));
 
-		System.out.println(demonstrateLengthAddition(new Length(5, LengthUnit.FEET), new Length(-2, LengthUnit.FEET), LengthUnit.INCHES));
-	}
+        Length oneFoot = new Length(1, LengthUnit.FEET);
+        Length twelveInches = new Length(12, LengthUnit.INCHES);
+
+        System.out.println("1 foot == 12 inches ? "
+                + demonstrateLengthEquality(oneFoot, twelveInches));
+
+        System.out.println("3 feet == 36 inches ? "
+                + demonstrateLengthComparison(
+                        3, LengthUnit.FEET,
+                        36, LengthUnit.INCHES));
+
+        System.out.println("1 meter == 3 feet ? "
+                + demonstrateLengthComparison(
+                        1, LengthUnit.CENTIMETERS,
+                        3, LengthUnit.FEET));
+
+
+        System.out.println("1 ft + 2 ft = "
+                + demonstrateLengthAddition(
+                        new Length(1, LengthUnit.FEET),
+                        new Length(2, LengthUnit.FEET)));
+
+        System.out.println("1 ft + 12 inches (in feet) = "
+                + demonstrateLengthAddition(
+                        new Length(1, LengthUnit.FEET),
+                        new Length(12, LengthUnit.INCHES)));
+
+        System.out.println("1 ft + 12 inches (in inches) = "
+                + demonstrateLengthAddition(
+                        new Length(1, LengthUnit.FEET),
+                        new Length(12, LengthUnit.INCHES),
+                        LengthUnit.INCHES));
+
+        System.out.println("2 meters + 3 feet (in meters) = "
+                + demonstrateLengthAddition(
+                        new Length(2, LengthUnit.CENTIMETERS),
+                        new Length(3, LengthUnit.FEET),
+                        LengthUnit.CENTIMETERS));
+
+    }
 }

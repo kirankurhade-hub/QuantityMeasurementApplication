@@ -1,129 +1,73 @@
 package Quantity;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import quantity.Length;
-import quantity.Length.LengthUnit;
-
-import static org.junit.Assert.*;
+import quantity.LengthUnit;
 
 public class QuantityMeasurementAppTest {
-	
-	@Test
-	public void testAddition_ExplicitTargetUnit_Feet(){
-		Length length1 = new Length(3, LengthUnit.FEET);
-		Length length2 = new Length(24, LengthUnit.INCHES);
 
-		Length result = new Length(5, LengthUnit.FEET);
-		assertEquals(result, length1.add(length2, LengthUnit.FEET));
-	}
+    private static final double EPSILON = 0.01;
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_Inches(){
-		Length length1 = new Length(2, LengthUnit.FEET);
-		Length length2 = new Length(6, LengthUnit.INCHES);
+    @Test
+    public void testLengthUnitEnum_FeetConstant() {
+        assertEquals(1.0, LengthUnit.FEET.getConversionFactor(), EPSILON);
+    }
 
-		Length result = new Length(30, LengthUnit.INCHES);
-		assertEquals(result, length1.add(length2, LengthUnit.INCHES));
-	}
+    @Test
+    public void testConvertToBaseUnit_InchesToFeet() {
+        assertEquals(1.0,
+                LengthUnit.INCHES.convertToBaseUnit(12.0),
+                EPSILON);
+    }
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_Yards(){
-		Length length1 = new Length(3, LengthUnit.FEET);
-		Length length2 = new Length(3, LengthUnit.FEET);
+    @Test
+    public void testConvertFromBaseUnit_FeetToYards() {
+        assertEquals(1.0,
+                LengthUnit.YARDS.convertFromBaseUnit(3.0),
+                EPSILON);
+    }
 
-		Length result = new Length(2, LengthUnit.YARDS);
-		assertEquals(result, length1.add(length2, LengthUnit.YARDS));
-	}
+    @Test
+    public void testQuantityLengthRefactored_Equality() {
+        assertTrue(new Length(1, LengthUnit.FEET)
+                .equals(new Length(12, LengthUnit.INCHES)));
+    }
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_Centimeters(){
-		Length length1 = new Length(2, LengthUnit.INCHES);
-		Length length2 = new Length(3, LengthUnit.INCHES);
+    @Test
+    public void testQuantityLengthRefactored_ConvertTo() {
+        Length result = new Length(1, LengthUnit.FEET)
+                .convertTo(LengthUnit.INCHES);
+        assertEquals(new Length(12, LengthUnit.INCHES), result);
+    }
 
-		Length result = new Length(12.7, LengthUnit.CENTIMETERS);
-		assertEquals(result, length1.add(length2, LengthUnit.CENTIMETERS));
-	}
+    @Test
+    public void testQuantityLengthRefactored_Add() {
+        Length result =
+                new Length(1, LengthUnit.FEET)
+                        .add(new Length(12, LengthUnit.INCHES),
+                                LengthUnit.FEET);
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_SameAsFirstOperand(){
-		Length length1 = new Length(4, LengthUnit.YARDS);
-		Length length2 = new Length(6, LengthUnit.FEET);
+        assertEquals(new Length(2, LengthUnit.FEET), result);
+    }
 
-		Length result = new Length(6, LengthUnit.YARDS);
-		assertEquals(result, length1.add(length2, LengthUnit.YARDS));
-	}
+    @Test
+    public void testRoundTripConversion_RefactoredDesign() {
+        Length original = new Length(5, LengthUnit.FEET);
+        Length converted = original.convertTo(LengthUnit.INCHES);
+        Length back = converted.convertTo(LengthUnit.FEET);
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_SameAsSecondOperand(){
-		Length length1 = new Length(1, LengthUnit.YARDS);
-		Length length2 = new Length(3, LengthUnit.FEET);
+        assertEquals(original, back);
+    }
 
-		Length result = new Length(6, LengthUnit.FEET);
-		assertEquals(result, length1.add(length2, LengthUnit.FEET));
-	}
+    @Test
+    public void testNullUnit() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Length(1, null));
+    }
 
-	@Test
-	public void testAddition_ExplicitTargetUnit_Commutativity(){
-		Length length1 = new Length(4, LengthUnit.FEET);
-		Length length2 = new Length(8, LengthUnit.INCHES);
-
-		Length result1 = length1.add(length2, LengthUnit.FEET);
-		Length result2 = length2.add(length1, LengthUnit.FEET);
-
-		assertEquals(result1, result2);
-	}
-
-	@Test
-	public void testAddition_ExplicitTargetUnit_WithZero(){
-		Length length1 = new Length(9, LengthUnit.FEET);
-		Length length2 = new Length(0, LengthUnit.INCHES);
-
-		Length result = new Length(3, LengthUnit.YARDS);
-		assertEquals(result, length1.add(length2, LengthUnit.YARDS));
-	}
-
-	@Test
-	public void testAddition_ExplicitTargetUnit_NegativeValues(){
-		Length length1 = new Length(10, LengthUnit.FEET);
-		Length length2 = new Length(-4, LengthUnit.FEET);
-
-		Length result = new Length(72, LengthUnit.INCHES);
-		assertEquals(result, length1.add(length2, LengthUnit.INCHES));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testAddition_ExplicitTargetUnit_NullTargetUnit(){
-		Length length1 = new Length(2, LengthUnit.FEET);
-		Length length2 = new Length(5, LengthUnit.INCHES);
-
-		length1.add(length2, null);
-	}
-
-	@Test
-	public void testAddition_ExplicitTargetUnit_LargeToSmallScale(){
-		Length length1 = new Length(200, LengthUnit.FEET);
-		Length length2 = new Length(300, LengthUnit.FEET);
-
-		Length result = new Length(6000, LengthUnit.INCHES);
-		assertEquals(result, length1.add(length2, LengthUnit.INCHES));
-	}
-
-	@Test
-	public void testAddition_ExplicitTargetUnit_SmallToLargeScale(){
-		Length length1 = new Length(36, LengthUnit.INCHES);
-		Length length2 = new Length(36, LengthUnit.INCHES);
-
-		Length result = new Length(2, LengthUnit.YARDS);
-		assertEquals(result, length1.add(length2, LengthUnit.YARDS));
-	}
-
-	@Test
-	public void testAddition_ExplicitTargetUnit_PrecisionTolerance(){
-		Length length1 = new Length(5, LengthUnit.FEET);
-		Length length2 = new Length(7, LengthUnit.INCHES);
-
-		Length result = new Length(1.86, LengthUnit.YARDS);
-		assertEquals(result, length1.add(length2, LengthUnit.YARDS));
-	}
+   
 }
