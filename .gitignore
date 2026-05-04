@@ -1,11 +1,6 @@
 # Build outputs
-/target/
+**/target/
 *.class
-!/target/.gitkeep
-!/target/.placeholder
-!**/src/main/**/target/
-!**/src/test/**/target/
-/target/**/generated-sources/
 
 # Maven
 .mvn/timing.properties
